@@ -11,6 +11,26 @@ non-truncated listing of ~160 data files + `index.html`).
 
 ---
 
+## ⛔ Hard cost rule — 200 GB query cap (non-negotiable)
+
+**EVERY BigQuery query MUST enforce a 200 GB scan cap = `214748364800` bytes. No query runs without it.**
+
+- **`bq` CLI:** inherits the cap from `~/.bigqueryrc`:
+  ```
+  [query]
+  maximum_bytes_billed=214748364800
+  ```
+- **Python client (and any SDK):** the file is NOT read — set it on every job explicitly:
+  ```python
+  job_config = bigquery.QueryJobConfig(maximum_bytes_billed=214748364800)
+  client.query(sql, job_config=job_config)
+  ```
+- Any query estimated to scan more than 200 GB is **rejected before it runs** (zero bytes billed).
+- This caps **per-query** scan, not monthly spend — it complements the 200 MXN/month project
+  budget, it does not replace it.
+
+---
+
 ## Confirmed facts
 
 ### File naming & coverage
