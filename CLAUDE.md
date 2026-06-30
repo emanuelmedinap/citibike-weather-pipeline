@@ -7,7 +7,7 @@ non-truncated listing of ~160 data files + `index.html`).
 
 > Status: the **Confirmed facts** below were verified firsthand by reading only the
 > header row of representative files via HTTP Range requests (no full archive downloaded).
-> The **Proposed decisions** are proposals awaiting review — nothing here is finalized.
+> The **Confirmed decisions** below have been reviewed and approved.
 
 ---
 
@@ -66,6 +66,10 @@ Legacy→new notable changes: `starttime`/`stoptime` → `started_at`/`ended_at`
 `tripduration` dropped; `bikeid` → `ride_id`; `usertype` (Subscriber/Customer) →
 `member_casual` (member/casual); `birth year` and `gender` dropped; `rideable_type` added.
 
+> **`birth_year` / `gender` are legacy-era only.** They exist only in legacy-schema files
+> (NYC ≤ 2019, JC ≤ 2021-01) and are **absent — stored as null** for all new-schema data
+> (NYC ≥ 2020-01, JC ≥ 2021-02). We keep both columns as nullable in the canonical schema.
+
 ### Per-era / structural quirks
 
 - **NYC 2017**: month-named subfolders, each CSV split (`…csv_1.csv`, `…csv_2.csv`); archive
@@ -87,14 +91,14 @@ offset 0, so its central directory is never needed). Each header was read with �
 
 ---
 
-## Proposed decisions (PROPOSE ONLY — awaiting review)
+## Confirmed decisions
 
-Each is a project decision to confirm, with a one-line rationale.
+Each is an approved project decision, with a one-line rationale.
 
 1. **Canonical schema = the New 13-column layout.** _It's the current format and covers the most-recent + largest share of data._
 2. **Schema gating is per-system-and-date, not one global date.** _NYC flips at 2020-01 but JC flips at 2021-02; a single cutoff would mis-parse one system._
 3. **Add a `system` column (`NYC`/`JC`) on ingest.** _Files are separate series and station IDs can overlap across systems._
-4. **Map legacy → new explicitly; carry `birth year`/`gender` as nullable extras (or drop).** _Legacy has two demographic columns the new schema lacks; decide retention deliberately._
+4. **Map legacy → new explicitly; keep `birth_year`/`gender` as nullable columns.** _Legacy carries these two demographic columns; new-schema rows lack them, so they are null for NYC ≥ 2020-01 and JC ≥ 2021-02._
 5. **Synthesize a surrogate key for legacy rows lacking `ride_id`.** _Downstream dedupe/joins need a stable primary key across both eras._
 6. **Derive a `trip_duration_s` from `started_at`/`ended_at` for new-schema rows.** _New files dropped the precomputed `tripduration`; recompute for parity with legacy._
 7. **Normalize headers on read: strip quotes/whitespace, lowercase, snake_case.** _JC quoting and JC-2015 Title-Case mean the same logical column appears under several spellings._
@@ -102,4 +106,4 @@ Each is a project decision to confirm, with a one-line rationale.
 9. **Treat `station_id` as a string, not an integer.** _Legacy IDs are small ints; new IDs are longer float-like/string codes — numeric parsing loses data._
 10. **Treat timestamps as `America/New_York` local time (no offset in source).** _Citibike publishes wall-clock local time; assuming UTC would shift every trip._
 11. **Stream from S3 (range/unzip on the fly); do not commit raw trip data to git.** _Archives are multi-GB; the bucket is the source of truth._
-12. **Decide JC scope explicitly (in or out).** _It changes schema-gating, the `system` column, and storage footprint; cheaper to settle up front._
+12. **JC scope = IN.** _Jersey City data is in scope and is distinguished from NYC by the `system` column (see decision 3)._
