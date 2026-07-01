@@ -38,8 +38,9 @@ must be legible with zero setup and no account.
 
 ## Verify targets (concrete, measurable)
 1. **Load-time number** — the page renders and shows the headline KPI
-   **314,774,609 total trips**; first paint under ~15 s on a Cloud Run cold
-   start (sub-3 s warm), reading a 267 KB local parquet bundle (no live queries).
+   **314,774,609 total trips**. **Warm load: under 3 seconds** (typical). **Cold
+   start: ~15 seconds** on the first hit after scale-to-zero. Reads a 267 KB
+   local parquet bundle (no live queries).
 2. **Correctness check** — the "Total trips" KPI equals **314,774,609**, enforced
    at startup by `assert df.trips.sum() == 314_774_609`, and independently
    reproducible via `sql/verification.sql` (reconciles to the same total three ways).
