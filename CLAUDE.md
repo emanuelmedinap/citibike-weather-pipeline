@@ -127,3 +127,5 @@ Each is an approved project decision, with a one-line rationale.
 10. **Treat timestamps as `America/New_York` local time (no offset in source).** _Citibike publishes wall-clock local time; assuming UTC would shift every trip._
 11. **Stream from S3 (range/unzip on the fly); do not commit raw trip data to git.** _Archives are multi-GB; the bucket is the source of truth._
 12. **JC scope = IN.** _Jersey City data is in scope and is distinguished from NYC by the `system` column (see decision 3)._
+13. **Trip distance = out of scope (not in source, not computed).** _The CSVs carry no distance; straight-line from station coordinates understates real routes, and a Maps/Directions API won't scale to 300M+ trips — so distance is disclosed as out of scope rather than estimated._
+14. **Definition of day = the trip's START time, as an America/New_York local date.** _A trip counts toward the NY-local calendar date of `started_at`, so daily rollups line up with the daily Central Park weather join._
