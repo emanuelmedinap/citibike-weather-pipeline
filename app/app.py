@@ -105,24 +105,28 @@ st.divider()
 
 # ---------------------------------- 1) ridership + temperature (dual axis)
 st.subheader("Ridership & temperature over time")
-weekly = (d.assign(week=d["trip_date"].dt.to_period("W").dt.start_time)
-            .groupby("week", as_index=False)[m].sum())
+daily_trend = daily_totals.sort_values("trip_date").copy()
+daily_trend["roll30"] = daily_trend[m].rolling(30, min_periods=1).mean()
 temp_weekly = (nyc.assign(week=nyc["trip_date"].dt.to_period("W").dt.start_time)
                  .groupby("week", as_index=False)["tmax_f"].mean())
 fig = make_subplots(specs=[[{"secondary_y": True}]])
-fig.add_trace(go.Scatter(x=weekly["week"], y=weekly[m], name="trips / week",
-                         line=dict(color="#1f77b4")), secondary_y=False)
+fig.add_trace(go.Scatter(x=daily_trend["trip_date"], y=daily_trend[m],
+                         name="daily trips", opacity=0.35,
+                         line=dict(color="#9ecae1", width=1)), secondary_y=False)
+fig.add_trace(go.Scatter(x=daily_trend["trip_date"], y=daily_trend["roll30"],
+                         name="30-day avg",
+                         line=dict(color="#08519c", width=2.5)), secondary_y=False)
 if not temp_weekly.empty:
     fig.add_trace(go.Scatter(x=temp_weekly["week"], y=temp_weekly["tmax_f"],
                              name="NYC high (°F)",
                              line=dict(color="#d62728", width=1)),
                   secondary_y=True)
-fig.update_yaxes(title_text="trips per week", secondary_y=False)
+fig.update_yaxes(title_text="trips per day", secondary_y=False)
 fig.update_yaxes(title_text="NYC daily high (°F)", secondary_y=True)
 fig.update_layout(height=430, legend_title="", margin=dict(t=10),
                   hovermode="x unified")
 st.plotly_chart(fig, use_container_width=True)
-st.caption("Weekly trips (left axis) rise and fall with NYC temperature "
+st.caption("Daily trips with a 30-day average (left axis) against NYC temperature "
            "(right axis, Central Park) — the seasonal lockstep is the core story.")
 
 # --------------------------------------------- 2) weather vs ridership (NYC)
