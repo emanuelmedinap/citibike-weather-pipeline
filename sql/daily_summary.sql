@@ -1,12 +1,17 @@
 -- citibike_marts.daily_summary — reporting-layer daily rollup of trips_clean,
--- one row per trip_date x system. Small (~9,500 rows); the dashboard hits this
--- and it joins to daily NYC weather on trip_date. Rebuild to refresh.
+-- one row per trip_date x system (~8,634 rows); the dashboard hits this and it
+-- joins to daily NYC weather on trip_date. Rebuild to refresh.
+--
+-- PARTITIONED BY DATE at MONTH granularity: DATE_TRUNC(trip_date, MONTH) yields
+-- ~156 monthly partitions (2013-06 .. 2026-05), well under BigQuery's
+-- 4,000-partition limit — daily partitioning (~4,738 days) would fail.
 --
 -- avg/median are computed over a bounded "typical ride" window
 -- (0 < trip_duration_s <= 86400 s); `duration_outliers` counts everything
 -- excluded (NULL, <=0, or >24h) so nothing is hidden. `trips` is the full count.
 
-CREATE OR REPLACE TABLE `msbai-dwd-em5844.citibike_marts.daily_summary` AS
+CREATE OR REPLACE TABLE `msbai-dwd-em5844.citibike_marts.daily_summary`
+PARTITION BY DATE_TRUNC(trip_date, MONTH) AS
 SELECT
   DATE(started_at) AS trip_date,
   system,
