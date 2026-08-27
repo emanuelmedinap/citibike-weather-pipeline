@@ -9,6 +9,24 @@ non-truncated listing of ~160 data files + `index.html`).
 > header row of representative files via HTTP Range requests (no full archive downloaded).
 > The **Confirmed decisions** below have been reviewed and approved.
 
+## STANDING ORDER, 2026-08-27. No unrequested files.
+
+**NO AGENT CREATES OR GENERATES ANY FILE, ARTIFACT, DOCUMENT, EXPORT OR DOWNLOAD UNLESS EMANUEL EXPLICITLY ASKS FOR IT.**
+
+Answer in the thread. If you believe a file would help, **say so in one line and wait.** Do not produce it and then offer it. Producing it first is the violation, whether or not he keeps it.
+
+This is a **standing order, not a preference**, and it does not get softened, reinterpreted as a default, or treated as advice about tidiness. Three reasons, so no future session argues with it:
+
+1. **Unrequested files become his filing work.** Every one he did not ask for is a decision he now has to make and a place he now has to put it.
+2. **They break the architecture rule.** Memory in GitHub, documents in Drive, nothing generated sideways into either.
+3. **They spend tokens he is watching.**
+
+Scope: every agent, every repo, every session. It covers documents, exports, decks, spreadsheets, diagrams, reports, scripts written to disk as deliverables, and anything staged in `~/Downloads`. It does not cover the memory `.md` files an agent maintains as part of its own record, or work he has already asked for in the same thread.
+
+When in doubt: **ask in one line, then wait.**
+
+Canonical source is Meta (`2_strategic_agent_personality/OPERATING_NORM.md`). This repo has no `OPERATING_NORM.md`, so the rule is carried here. Do not edit it locally.
+
 ---
 
 ## ⛔ Hard cost rule — 200 GB query cap (non-negotiable)
