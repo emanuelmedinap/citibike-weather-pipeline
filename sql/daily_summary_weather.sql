@@ -5,7 +5,7 @@
 -- get NULL weather by design — Central Park does not represent Jersey City.
 -- Dashboard filters by `system`.
 
-CREATE OR REPLACE VIEW `msbai-dwd-em5844.citibike_marts.daily_summary_weather` AS
+CREATE OR REPLACE VIEW `YOUR_GCP_PROJECT.citibike_marts.daily_summary_weather` AS
 SELECT
   d.trip_date,
   d.system,
@@ -23,6 +23,6 @@ SELECT
   w.tmin_f,
   w.prcp_mm,
   w.snow_mm
-FROM `msbai-dwd-em5844.citibike_marts.daily_summary` d
-LEFT JOIN `msbai-dwd-em5844.citibike_marts.weather` w
+FROM `YOUR_GCP_PROJECT.citibike_marts.daily_summary` d
+LEFT JOIN `YOUR_GCP_PROJECT.citibike_marts.weather` w
   ON d.system = 'NYC' AND w.date = d.trip_date;

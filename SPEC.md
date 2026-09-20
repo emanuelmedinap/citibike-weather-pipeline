@@ -2,7 +2,7 @@
 
 Drafted from what is built and deployed. Owner: reviewer/author to confirm.
 
-**Live:** https://citibike-dashboard-272987333238.us-central1.run.app (public, no login)
+**Live:** (retired; see docs/img) (public, no login)
 
 ## Thesis / purpose
 A public dashboard that answers one question in plain sight: **how does NYC

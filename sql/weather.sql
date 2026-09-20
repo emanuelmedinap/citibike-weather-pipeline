@@ -5,7 +5,7 @@
 --   SNOW: already whole mm (NOT tenths). qflag blank => passed NOAA QC.
 -- Rebuild to refresh (adds new dates as public GHCN tables update).
 
-CREATE OR REPLACE TABLE `msbai-dwd-em5844.citibike_marts.weather` AS
+CREATE OR REPLACE TABLE `YOUR_GCP_PROJECT.citibike_marts.weather` AS
 WITH daily AS (
   SELECT
     date,

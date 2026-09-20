@@ -1,5 +1,5 @@
 -- citibike_raw.trips_clean  —  unified, typed view over the two raw tables.
--- Canonical = the new 13-col schema (CLAUDE.md decision #1). Unification happens
+-- Canonical = the new 13-col schema (see DECISIONS.md, "Two raw tables"). Unification happens
 -- HERE, not on load. All source columns are raw STRING; this view types them,
 -- maps legacy -> canonical, and surfaces provenance. DRAFT — validate parsing
 -- (esp. legacy timestamp formats) before trusting; see sql/validate_clean.sql.
@@ -7,7 +7,7 @@
 -- Timestamps are emitted as DATETIME = naive America/New_York wall-clock, exactly
 -- as published (decision #10). Add a UTC TIMESTAMP later if a consumer needs it.
 
-CREATE OR REPLACE VIEW `msbai-dwd-em5844.citibike_raw.trips_clean` AS
+CREATE OR REPLACE VIEW `YOUR_GCP_PROJECT.citibike_raw.trips_clean` AS
 WITH legacy AS (
   SELECT
     -- legacy has no ride_id -> synthesize a stable surrogate (decision #5).
@@ -48,7 +48,7 @@ WITH legacy AS (
     system,
     'legacy' AS schema_era,
     source_file
-  FROM `msbai-dwd-em5844.citibike_raw.trips_legacy`
+  FROM `YOUR_GCP_PROJECT.citibike_raw.trips_legacy`
 ),
 new_rows AS (
   SELECT
@@ -81,7 +81,7 @@ new_rows AS (
       system,
       'new' AS schema_era,
       source_file
-    FROM `msbai-dwd-em5844.citibike_raw.trips_new`
+    FROM `YOUR_GCP_PROJECT.citibike_raw.trips_new`
   )
 )
 SELECT ride_id, rideable_type, started_at, ended_at, trip_duration_s,

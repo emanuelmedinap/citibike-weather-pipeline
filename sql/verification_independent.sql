@@ -17,7 +17,7 @@ WITH expected AS (
 ),
 actual AS (
   SELECT DATE_TRUNC(trip_date, MONTH) AS mo, SUM(trips) AS trips
-  FROM `msbai-dwd-em5844.citibike_marts.daily_summary`
+  FROM `YOUR_GCP_PROJECT.citibike_marts.daily_summary`
   GROUP BY mo
 )
 SELECT
@@ -31,7 +31,7 @@ FROM expected e LEFT JOIN actual a USING (mo);
 -- ===== PART 2: yearly cross-check vs independent source =====
 WITH ours AS (
   SELECT EXTRACT(YEAR FROM trip_date) AS yr, SUM(trips) AS ours_trips
-  FROM `msbai-dwd-em5844.citibike_marts.daily_summary` GROUP BY yr
+  FROM `YOUR_GCP_PROJECT.citibike_marts.daily_summary` GROUP BY yr
 ),
 theirs AS (
   SELECT EXTRACT(YEAR FROM start_time) AS yr, COUNT(*) AS their_trips

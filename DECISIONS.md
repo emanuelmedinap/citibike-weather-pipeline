@@ -9,14 +9,14 @@ reconciles to a single number: **314,774,609 trips**.
 
 | Thing | Value |
 |---|---|
-| GCP project | `msbai-dwd-em5844` |
-| GCS staging bucket | `gs://msbai-dwd-em5844-citibike-raw` (US) |
+| GCP project | `YOUR_GCP_PROJECT` |
+| GCS staging bucket | `gs://YOUR_GCP_PROJECT-citibike-raw` (US) |
 | Raw tables | `citibike_raw.trips_legacy`, `citibike_raw.trips_new` |
 | Clean view | `citibike_raw.trips_clean` |
 | Marts | `citibike_marts.daily_summary`, `citibike_marts.weather`, `citibike_marts.daily_summary_weather` |
 | Ingest script | `ingest/ingest.py` |
 | Dashboard app | `app/` (Streamlit) |
-| Public dashboard | https://citibike-dashboard-272987333238.us-central1.run.app |
+| Public dashboard | (retired; see docs/img) |
 | Source data | Public Citibike archive — `https://s3.amazonaws.com/tripdata/` (169 zip files) |
 
 Architecture is a straight line: **S3 archive → GCS staging → two raw tables →

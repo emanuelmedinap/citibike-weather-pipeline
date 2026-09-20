@@ -2,7 +2,7 @@
 """
 Citibike raw ingest: stage zips from the public S3 archive into GCS, then load
 into two raw-faithful BigQuery tables (legacy 15-col, new 13-col), per the
-confirmed CLAUDE.md decisions. No normalization on load.
+decisions in DECISIONS.md. No normalization on load.
 
 Pipeline (file-by-file): download zip -> recursively extract CSV members ->
 restage (CSV-aware): strip header if present, append provenance (system,
@@ -17,9 +17,9 @@ Usage:
 """
 import argparse, csv, gzip, hashlib, io, os, re, shutil, subprocess, sys, tempfile, urllib.request, zipfile
 
-PROJECT  = "msbai-dwd-em5844"
+PROJECT  = os.environ.get("GCP_PROJECT", "YOUR_GCP_PROJECT")
 DATASET  = "citibike_raw"
-BUCKET   = "msbai-dwd-em5844-citibike-raw"
+BUCKET   = os.environ.get("GCS_BUCKET", PROJECT + "-citibike-raw")
 LOCATION = "US"
 BASE_URL = "https://s3.amazonaws.com/tripdata/"
 STAGING  = "staging"   # gs://BUCKET/staging/{legacy|new}/...

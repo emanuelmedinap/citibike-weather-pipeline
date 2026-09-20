@@ -10,7 +10,7 @@
 -- (0 < trip_duration_s <= 86400 s); `duration_outliers` counts everything
 -- excluded (NULL, <=0, or >24h) so nothing is hidden. `trips` is the full count.
 
-CREATE OR REPLACE TABLE `msbai-dwd-em5844.citibike_marts.daily_summary`
+CREATE OR REPLACE TABLE `YOUR_GCP_PROJECT.citibike_marts.daily_summary`
 PARTITION BY DATE_TRUNC(trip_date, MONTH) AS
 SELECT
   DATE(started_at) AS trip_date,
@@ -26,5 +26,5 @@ SELECT
   COUNT(DISTINCT start_station_id)  AS distinct_start_stations,
   COUNTIF(trip_duration_s IS NULL OR trip_duration_s <= 0
           OR trip_duration_s > 86400) AS duration_outliers
-FROM `msbai-dwd-em5844.citibike_raw.trips_clean`
+FROM `YOUR_GCP_PROJECT.citibike_raw.trips_clean`
 GROUP BY trip_date, system;

@@ -12,7 +12,7 @@ WITH parsed AS (
     SAFE_CAST(tripduration AS INT64) AS dur,
     CASE LOWER(TRIM(usertype)) WHEN 'subscriber' THEN 'member'
                                WHEN 'customer'   THEN 'casual' ELSE NULL END AS mc
-  FROM `msbai-dwd-em5844.citibike_raw.trips_legacy`
+  FROM `YOUR_GCP_PROJECT.citibike_raw.trips_legacy`
   UNION ALL
   SELECT 'new' AS era,
     started_at AS raw_start, ended_at AS raw_stop,
@@ -22,7 +22,7 @@ WITH parsed AS (
              SAFE.PARSE_DATETIME('%Y-%m-%d %H:%M:%E*S', ended_at)) AS en,
     CAST(NULL AS INT64) AS dur,
     LOWER(TRIM(member_casual)) AS mc
-  FROM `msbai-dwd-em5844.citibike_raw.trips_new`
+  FROM `YOUR_GCP_PROJECT.citibike_raw.trips_new`
 )
 SELECT era, COUNT(*) AS total,
   COUNTIF(st IS NULL AND TRIM(IFNULL(raw_start,'')) != '') AS start_parse_fail,

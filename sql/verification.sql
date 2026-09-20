@@ -15,7 +15,7 @@ WITH clean AS (
     COUNTIF(member_casual = 'member')    AS member,
     COUNTIF(member_casual = 'casual')    AS casual,
     COUNTIF(member_casual IS NULL)       AS unknown
-  FROM `msbai-dwd-em5844.citibike_raw.trips_clean`
+  FROM `YOUR_GCP_PROJECT.citibike_raw.trips_clean`
 ),
 mart AS (
   SELECT
@@ -26,13 +26,13 @@ mart AS (
     SUM(member_trips)                    AS member,
     SUM(casual_trips)                    AS casual,
     SUM(unknown_member_trips)            AS unknown
-  FROM `msbai-dwd-em5844.citibike_marts.daily_summary`
+  FROM `YOUR_GCP_PROJECT.citibike_marts.daily_summary`
 ),
 raw AS (
   SELECT
     'raw legacy+new (row counts)'        AS source,
-    (SELECT COUNT(*) FROM `msbai-dwd-em5844.citibike_raw.trips_legacy`)
-      + (SELECT COUNT(*) FROM `msbai-dwd-em5844.citibike_raw.trips_new`) AS total_trips,
+    (SELECT COUNT(*) FROM `YOUR_GCP_PROJECT.citibike_raw.trips_legacy`)
+      + (SELECT COUNT(*) FROM `YOUR_GCP_PROJECT.citibike_raw.trips_new`) AS total_trips,
     CAST(NULL AS INT64) AS nyc, CAST(NULL AS INT64) AS jc,
     CAST(NULL AS INT64) AS member, CAST(NULL AS INT64) AS casual,
     CAST(NULL AS INT64) AS unknown
