@@ -133,7 +133,8 @@ notification budget on the project. Every build query stayed well under the cap
 Citibike system data, public archive at `s3.amazonaws.com/tripdata`. Weather from
 NOAA GHCN-Daily via `bigquery-public-data.ghcn_d`, station USW00094728 (Central
 Park), QC-passed rows only. No personal data: the legacy schema's birth year and
-gender columns are carried through the clean view and never analysed.
+gender columns are carried through the clean view and never analysed. Terms of
+each source in [`LICENSES.md`](LICENSES.md).
 
 ## Built with
 
